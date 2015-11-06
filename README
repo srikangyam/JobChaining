@@ -1,0 +1,70 @@
+Implementation of Chained Mapper Jobs
+
+Output of Mapper1 goes to Mapper2
+
+This MR job is similar to the following SQL Query:
+select * from emp 
+	where salary >= 100000 and
+		  salary <= 130000 and
+		  id in (select id from emp where location = 'CA');
+
+input ----Mapper1----> temp ----Mapper2----> output
+
+Input:
+1,CA,seema,50000
+2,NY,rahul,70000
+3,TX,jitin,95000
+4,NJ,aditya,97000
+5,VI,arya,70000
+6,CA,anuj,120000
+7,CA,abhinav,110000
+8,TX,rubayya,100000
+9,AZ,rockwell,115000
+10,MS,divya,90000
+11,MS,alok,98000
+12,CA,sawe,130000
+13,TX,mitali,79000
+14,MS,kayla,65000
+15,MS,rita,77000
+16,NY,micheal,180000
+17,MS,max,200000
+18,CA,apar,150000
+19,TX,cathy,89000
+20,AZ,cole,99000
+21,WS,arnold,77778
+22,AZ,mohali,135000
+23,CA,jack,65000
+24,TX,lisa,200000
+25,CA,jeniffer,156000
+26,TX,scarlet,66000
+27,CA,caroline,101000
+29,WS,mike,89000
+
+
+FILES CREATED USING MULTIPLE JOBS:
+==================================
+temp:
+1,CA,seema,50000	
+12,CA,sawe,130000	
+18,CA,apar,150000	
+23,CA,jack,65000	
+25,CA,jeniffer,156000	
+27,CA,caroline,101000	
+6,CA,anuj,120000	
+7,CA,abhinav,110000	
+
+output:
+12,CA,sawe,130000		
+27,CA,caroline,101000		
+6,CA,anuj,120000		
+7,CA,abhinav,110000
+
+
+
+FILES CREATED USING SINGLE JOB:
+===============================
+output:
+6,CA,anuj,120000	
+7,CA,abhinav,110000	
+12,CA,sawe,130000	
+27,CA,caroline,101000
